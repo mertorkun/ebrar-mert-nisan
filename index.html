@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ebrar & Mert | Nişan Geri Sayım</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #c41e3a;
+            --deep-red: #8b1538;
+            --rose-red: #e94b5a;
+            --soft-pink: #ffeef0;
+            --gold: #d4af37;
+            --cream: #faf7f5;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--soft-pink) 0%, #fff 50%, var(--soft-pink) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background hearts */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 20px;
+            color: var(--rose-red);
+            opacity: 0.15;
+            animation: float-up 15s infinite ease-in;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.15;
+            }
+            50% {
+                opacity: 0.25;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Header section */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .names {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 300;
+            color: var(--primary-red);
+            line-height: 1.2;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .names::after {
+            content: '♥';
+            position: absolute;
+            top: -15px;
+            right: -40px;
+            font-size: 2rem;
+            color: var(--rose-red);
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1); }
+        }
+
+        .event-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 400;
+            color: var(--deep-red);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-top: 15px;
+        }
+
+        .date-display {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            color: #666;
+            margin-top: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Countdown section */
+        .countdown-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 60px 40px;
+            box-shadow: 
+                0 20px 60px rgba(196, 30, 58, 0.15),
+                0 0 0 1px rgba(196, 30, 58, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+            backdrop-filter: blur(10px);
+        }
+
+        .countdown-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--rose-red), var(--primary-red), var(--deep-red));
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .countdown-item {
+            text-align: center;
+            position: relative;
+            animation: scaleIn 0.6s ease-out backwards;
+        }
+
+        .countdown-item:nth-child(1) { animation-delay: 0.5s; }
+        .countdown-item:nth-child(2) { animation-delay: 0.6s; }
+        .countdown-item:nth-child(3) { animation-delay: 0.7s; }
+        .countdown-item:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .countdown-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 8vw, 5rem);
+            font-weight: 700;
+            color: var(--primary-red);
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(196, 30, 58, 0.1);
+            display: block;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .countdown-item:hover .countdown-number {
+            transform: scale(1.1);
+        }
+
+        .countdown-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--rose-red), transparent);
+            margin: 30px 0;
+            opacity: 0.3;
+        }
+
+        .message {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            color: var(--deep-red);
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.6;
+            animation: fadeIn 1s ease-out 1s backwards;
+        }
+
+        /* Decorative elements */
+        .decorative-corner {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            opacity: 0.1;
+        }
+
+        .decorative-corner.top-left {
+            top: 20px;
+            left: 20px;
+            border-top: 3px solid var(--primary-red);
+            border-left: 3px solid var(--primary-red);
+        }
+
+        .decorative-corner.bottom-right {
+            bottom: 20px;
+            right: 20px;
+            border-bottom: 3px solid var(--primary-red);
+            border-right: 3px solid var(--primary-red);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .countdown-container {
+                padding: 40px 25px;
+            }
+
+            .countdown-grid {
+                gap: 20px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .names::after {
+                right: -25px;
+                font-size: 1.5rem;
+            }
+
+            .event-title {
+                letter-spacing: 4px;
+            }
+        }
+
+        /* Special effect when countdown reaches zero */
+        .celebration {
+            display: none;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: var(--primary-red);
+            font-weight: 700;
+            animation: celebrate 2s infinite;
+        }
+
+        @keyframes celebrate {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="hearts-bg"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="names">Ebrar & Mert</h1>
+            <h2 class="event-title">Nişan Günü</h2>
+            <p class="date-display">30 Mayıs 2026</p>
+        </div>
+
+        <div class="countdown-container">
+            <div class="decorative-corner top-left"></div>
+            <div class="decorative-corner bottom-right"></div>
+            
+            <div class="countdown-grid" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">--</span>
+                    <span class="countdown-label">Gün</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">--</span>
+                    <span class="countdown-label">Saat</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">--</span>
+                    <span class="countdown-label">Dakika</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">--</span>
+                    <span class="countdown-label">Saniye</span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="message" id="message">
+                Hayatımızın en güzel gününe...
+            </div>
+
+            <div class="celebration" id="celebration">
+                🎉 Mutluluğunuz Daim Olsun! 🎉
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heartsContainer = document.getElementById('hearts-bg');
+            const heart = document.createElement('div');
+            heart.className = 'heart-float';
+            heart.textContent = '♥';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (10 + Math.random() * 10) + 's';
+            heart.style.fontSize = (15 + Math.random() * 15) + 'px';
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 15000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 2000);
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createHeart, i * 400);
+        }
+
+        // Countdown logic
+        const targetDate = new Date('May 30, 2026 00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').style.display = 'none';
+                document.querySelector('.divider').style.display = 'none';
+                document.getElementById('message').style.display = 'none';
+                document.getElementById('celebration').style.display = 'block';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // Update every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
